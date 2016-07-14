@@ -15,7 +15,16 @@
 #' head(df)
 #' tail(df)
 #'
-#'
+#' # plot cloud cover per DOY per year per path/row
+#' library(magrittr)
+#' library(ggplot2)
+#' df$year <- format(df$date, format = "%Y") %>% as.numeric()
+#' df$doy <- format(df$date, format = "%j") %>% as.numeric()
+#' df$pr <- sprintf("%s-%s", df$path, df$row) %>% factor()
+#' p <- ggplot(data = df, aes(x = doy, y = year)) +
+#'    geom_point(aes(size = cloud_cover, colour = sensor), alpha = 0.5) +
+#'    facet_wrap(~ pr, nc = 1)
+#' p
 
 parsedata <- function(files) {
 
@@ -24,6 +33,11 @@ parsedata <- function(files) {
 
     patt <- str_extract(files[i], 'LANDSAT_(.*?)_')
     patt <- substr(patt, 1, nchar(patt) - 1)
+
+    sensor <- switch(patt,
+                     LANDSAT_TM = "TM",
+                     LANDSAT_ETM = "ETM+",
+                     LANDSAT_8 = "OLI")
 
     df[[i]] <- read.csv(file[i], stringsAsFactors = FALSE, quote = "")
 
@@ -41,6 +55,18 @@ parsedata <- function(files) {
                                             Cloud.Cover))
     }
     names(df[[i]]) <- c("sceneID", "date", "path", "row", "cloud_cover")
+
+    df[[i]]$sensor <- sapply(df[[i]]$date, FUN=function(x) {
+      if(sensor == "ETM+") {
+        if(x < as.Date("2003-03-31")) {
+          "ETM+ SLC-on"
+        } else {
+          "ETM+ SLC-off"
+        }
+      } else {
+        sensor
+      }
+    })
   }
 
   df <- do.call("rbind", df)

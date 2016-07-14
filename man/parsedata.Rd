@@ -21,6 +21,15 @@ df <- parsedata(fl)
 head(df)
 tail(df)
 
-
+# plot cloud cover per DOY per year per path/row
+library(magrittr)
+library(ggplot2)
+df$year <- format(df$date, format = "\%Y") \%>\% as.numeric()
+df$doy <- format(df$date, format = "\%j") \%>\% as.numeric()
+df$pr <- sprintf("\%s-\%s", df$path, df$row) \%>\% factor()
+p <- ggplot(data = df, aes(x = doy, y = year)) +
+   geom_point(aes(size = cloud_cover, colour = sensor), alpha = 0.5) +
+   facet_wrap(~ pr, nc = 1)
+p
 }
 
