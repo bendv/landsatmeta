@@ -25,7 +25,7 @@ parsedata <- function(files) {
     patt <- str_extract(files[i], 'LANDSAT_(.*?)_')
     patt <- substr(patt, 1, nchar(patt) - 1)
 
-    df[[i]] <- read.csv(file[i], stringsAsFactors = FALSE)
+    df[[i]] <- read.csv(file[i], stringsAsFactors = FALSE, quote = "")
 
     if(patt == "LANDSAT_8") {
       df[[i]] <- subset(df[[i]], select = c(Landsat.Scene.Identifier,
