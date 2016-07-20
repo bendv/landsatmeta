@@ -10,7 +10,8 @@
 #' @export
 #'
 #' @examples
-#' fl <- list.files('inst/extdata/', pattern = glob2rx('*.csv'), full.names = TRUE)
+#' dir <- system.file('extdata', package = 'landsatmeta')
+#' fl <- list.files(dir, pattern = glob2rx('*.csv'), full.names = TRUE)
 #' df <- parsedata(fl)
 #' head(df)
 #' tail(df)
