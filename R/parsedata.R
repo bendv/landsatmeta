@@ -39,22 +39,40 @@ parsedata <- function(files) {
                      LANDSAT_ETM = "ETM+",
                      LANDSAT_8 = "OLI")
 
-    df[[i]] <- read.csv(file[i], stringsAsFactors = FALSE, quote = "")
+    df[[i]] <- read.csv(files[i], stringsAsFactors = FALSE, quote = "")
 
     if(patt == "LANDSAT_8") {
       df[[i]] <- subset(df[[i]], select = c(Landsat.Scene.Identifier,
                                             Date.Acquired,
                                             WRS.Path,
                                             WRS.Row,
-                                            Scene.Cloud.Cover))
+                                            Scene.Cloud.Cover,
+                                            NW.Corner.Lat.dec,
+                                            NW.Corner.Long.dec,
+                                            NE.Corner.Lat.dec,
+                                            NE.Corner.Long.dec,
+                                            SW.Corner.Lat.dec,
+                                            SW.Corner.Long.dec,
+                                            SE.Corner.Lat.dec,
+                                            SE.Corner.Long.dec
+))
     } else {
       df[[i]] <- subset(df[[i]], select = c(Landsat.Scene.Identifier,
                                             Date.Acquired,
                                             WRS.Path,
                                             WRS.Row,
-                                            Cloud.Cover))
+                                            Cloud.Cover,
+                                            Corner.Upper.Left.Lat.dec,
+                                            Corner.Upper.Left.Long.dec,
+                                            Corner.Upper.Right.Lat.dec,
+                                            Corner.Upper.Right.Long.dec,
+                                            Corner.Lower.Left.Lat.dec,
+                                            Corner.Lower.Left.Long.dec,
+                                            Corner.Lower.Right.Lat.dec,
+                                            Corner.Lower.Right.Long.dec
+))
     }
-    names(df[[i]]) <- c("sceneID", "date", "path", "row", "cloud_cover")
+    names(df[[i]]) <- c("sceneID", "date", "path", "row", "cloud_cover", "upper_left_lat", "upper_left_long", "upper_right_lat", "upper_right_long", "lower_left_lat", "lower_left_long", "lower_right_lat", "lower_right_long")
 
     df[[i]]$sensor <- sapply(df[[i]]$date, FUN=function(x) {
       if(sensor == "ETM+") {
