@@ -91,3 +91,4 @@ parsedata <- function(files) {
   df$date <- as.Date(df$date, format = "%Y/%m/%d")
   return(df)
 }
+
