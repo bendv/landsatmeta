@@ -1,11 +1,12 @@
 #' @title Get Footprints
 #'
-#' @descriptions Get individual scene footprints from several EarthExplorer csv metadata files
+#' @description Get individual scene footprints from several EarthExplorer csv metadata files
 #'
 #' @param files Character. Vector of input csv filenames (from EarthExplorer)
 #' @param method Function. Function to use to calculate vertices (default is median)
 #'
 #' @import sp
+#' @export
 #'
 #' @examples
 #' fl <- list.files('inst/extdata/', pattern = glob2rx('*.csv'), full.names = TRUE)
