@@ -4,12 +4,12 @@
 \alias{getFootprints}
 \title{Get Footprints}
 \usage{
-getFootprints(files, method = max)
+getFootprints(files, method = "union")
 }
 \arguments{
 \item{files}{Character. Vector of input csv filenames (from EarthExplorer)}
 
-\item{method}{Function. Function to use to calculate vertices (default is median)}
+\item{method}{Function/Character. Function (e.g. mean, median) to calculate summary of footprint vertices. "union" (as character) is the default and computes vertices as the outermost bounding box of all footprints. Other built-in summary functions (e.g. mean, median) do not require quotes.}
 }
 \description{
 Get individual scene footprints from several EarthExplorer csv metadata files
