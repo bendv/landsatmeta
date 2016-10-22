@@ -39,7 +39,7 @@ parsedata <- function(files) {
                      LANDSAT_ETM = "ETM+",
                      LANDSAT_8 = "OLI")
 
-    df[[i]] <- read.csv(files[i], stringsAsFactors = FALSE, quote = "")
+    df[[i]] <- read.csv(files[i], stringsAsFactors = FALSE, quote = "", fileEncoding = 'latin1')
 
     if(patt == "LANDSAT_8") {
       df[[i]] <- subset(df[[i]], select = c(Landsat.Scene.Identifier,
